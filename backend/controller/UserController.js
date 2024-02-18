@@ -4,7 +4,7 @@
 
     //helpers
     const createUserToken = require('../helpers/create-user-token')
-    const getToken = require('../helpers/get-teken')
+    const getToken = require('../helpers/get-token')
 
     module.exports = class UserController{ 
         static async register(req,res) {
@@ -61,7 +61,7 @@
             try{
                 const newUser = await user.save() // para salvar
 
-                await createUserToken(newUser,req,res)
+                await createUserToken(newUser, req, res)
             }catch(err){
                 res.status(500).json({message: err})
             }
@@ -114,12 +114,10 @@
             
             let userCorrent
 
-            console.log(req.headers.authorization)
-
             if(req.headers.authorization) {
 
                 const token = getToken(req)
-                const decoded = jwt.verify(token, 'nossosecret')
+                const decoded = jwt.verify(token, 'nossoSecret')
 
                 userCorrent = await User.findById(decoded.id)
 
