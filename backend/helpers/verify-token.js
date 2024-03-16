@@ -16,6 +16,7 @@ const checkToken = (req, res, next) =>{
             message: 'Acesso negado!'
         })
     }
+
     try{
         
         const verified = jwt.verify(token, 'nossoSecret')
@@ -23,8 +24,7 @@ const checkToken = (req, res, next) =>{
         next()
 
     }catch(err){
-
-        return res.status(401)
+        return res.status(400)
         .json({
             message: 'Token invalido!'
         })

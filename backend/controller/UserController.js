@@ -5,6 +5,7 @@
     //helpers
     const createUserToken = require('../helpers/create-user-token')
     const getToken = require('../helpers/get-token')
+    const getUserByToken = require('../helpers/get-user-by-token')
 
     module.exports = class UserController{ 
         static async register(req,res) {
@@ -14,7 +15,35 @@
             if(!name || !email || !password || !confirmpassword || !phone){
                 res.status(422)
                 .json({
-                    message: "Favor preencher todos os campos"
+                    message: `falta preencher:${!name ? ' Nome' : ''}${!phone ? ' Telefone' : ''}`
+                })
+                return
+            }
+            if(!email){
+                res.status(422)
+                .json({
+                    message:"Por favor insira um email"
+                })
+            }
+
+            if(!password){
+                res.status(422)
+                .json({
+                    message:"Por favor insira uma senha"
+                })
+            }
+
+            if(!confirmpassword){
+                res.status(422)
+                .json({
+                    message:"Por favor confirme a senha"
+                })
+            }
+
+            if(!phone){
+                res.status(422)
+                .json({
+                    message:"Por favor insira um numero para contato"
                 })
             }
             
@@ -27,19 +56,18 @@
                     message: "Senhas não coincidem"
                 })
                 return
-            };
+            }
 
             //check if user exists
             const userExists = await User.findOne({email:email})
 
                 if(userExists) {
-                res.status(422)
-                .json({
-                    message: 'Email já existe favor utilizar outro'
-                })
-                return
-
-            }  
+                    res.status(422)
+                    .json({
+                        message: 'Email já existe favor utilizar outro'
+                    })
+                    return
+                }  
 
             //create a password
             
@@ -97,6 +125,7 @@
 
             }  
 
+
             const checkPassword = await bcrypt.compare(password, user.password)
 
             if(!checkPassword) {
@@ -110,6 +139,7 @@
             await createUserToken(user, req, res)
         }
 
+
         static async checkUser(req, res) {
             
             let userCorrent
@@ -120,10 +150,10 @@
                 const decoded = jwt.verify(token, 'nossoSecret')
 
                 userCorrent = await User.findById(decoded.id)
-
+                console.log(userCorrent)
                 userCorrent.password = undefined
 
-            } else{
+            }else{
                 userCorrent = null
             }
 
@@ -131,9 +161,11 @@
 
         }
 
+
         static async getByUserbyId(req,res){
             const id = req.params.id
             const user = await User.findById(id).select('-password')
+
             if(!user){
                 res.status(422)
                 .json({
@@ -142,16 +174,101 @@
                 })
                 return
             }
+
             res.status(200)
             .json({user})
         }
 
         static async editUser(req,res){
-            res.status(200)
+            
+            const id = req.params.id
+            
+
+            //check if user exists
+            const token = getToken(req)
+            const user = await getUserByToken(token)
+        
+        
+           const {name, email, phone, password, confirmpassword} = req.body
+           
+           let img= ''
+
+           
+           if(!name){
+                res.status(422)
                 .json({
-                    message: 'Sucesso!'
+                    message: "Digite um nome"
                 })
                 return
+            }
+           
+            user.name = name
+
+            if(!email){
+                res.status(422)
+                .json({
+                    message: "Obrigadtorio email"
+                })
+                return
+            }
+
+            //check if email already taken
+            const userExists = await User.findOne({email})
+
+            if(user && user.email !== email && userExists){
+                res.status(422)
+                .json({
+                    message: "Email já existe, por favor digite outro email"
+                })
+                return
+            }
+
+            user.email=email
+
+            if(!phone){
+                res.status(422)
+                .json({
+                    message: "Digite um numero de celular"
+                })
+            }
+
+            user.phone=phone
+
+           if(password !=confirmpassword){
+                res.status(422)
+                .json({
+                    message: "Senhas nao são iguais"
+                })
+                return
+           }else if(password === confirmpassword && password != null){
+                //creating a password
+                const salt = await bcrypt.genSalt(12)
+                const passwordHash = await bcrypt.hash(password, salt)
+                user.password = passwordHash
+           }
+
+           try{
+
+                // returns updated data
+                await User.findOneAndUpdate(
+                    {_id:user.id},
+                    {$set: user},
+                    {new: true}
+                )
+
+                res.status(200)
+                .json({
+                    message: "Usuario atualizado com sucesso!"
+                })
+
+           }catch(err){
+                res.status(500)
+                .json({
+                    message: err
+                })
+                return
+           }
+           console.log(user)
         }
     }
     console.log('3° - estamos em controller')
