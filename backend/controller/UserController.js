@@ -191,9 +191,12 @@
         
            const {name, email, phone, password, confirmpassword} = req.body
            
-           let img= ''
+            //Upload de Images
+            if(req.file) {
+                user.image = req.file.filename
+            }
 
-           
+            //Verifications
            if(!name){
                 res.status(422)
                 .json({
