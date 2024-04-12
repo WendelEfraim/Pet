@@ -23,7 +23,8 @@ const User = mongoose.model(
             type: String,
             require: true
         }
-    },{timerstamps: true},
+    },
+    {timerstamps: true},
     )
 )
 

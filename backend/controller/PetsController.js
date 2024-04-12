@@ -7,10 +7,12 @@ const getUserByToken = require('../helpers/get-user-by-token')
 
 module.exports = class PetsController{
     static async create(req,res){
-        
+        try{
         const {name, age, weight, color} = req.body
         
         const available = true
+
+        //Valitations
 
         if(!name){
             res.status(422).json({mesage:'Precisa inserir um nome!'})
@@ -32,9 +34,11 @@ module.exports = class PetsController{
             return
         }
 
+        //Get pet owner
         const token = getToken(req)
-        const user = getUserByToken(token)
+        const user = await getUserByToken(token)
 
+        //Create a pet
         const pet = new Pet({
             name,
             age,
@@ -43,12 +47,22 @@ module.exports = class PetsController{
             available,
             images: [],
             user: {
-                _id: user.id,
+                _id: user._id,
                 name: user.name,
                 image: user.image,
-                phone: user.phone
-            }
+                phone: user.phone,
+            },
         })
+        console.log(pet)
+        
 
+            const newPet = await pet.save()
+            res.status(201).json({
+                message: "Pet cadastrado com sucesso!",
+                newPet,
+            })
+        } catch (err) {
+            res.status(500).json({message: err})
+        }
     }
 }
