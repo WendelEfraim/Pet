@@ -10,6 +10,8 @@ module.exports = class PetsController{
         try{
         const {name, age, weight, color} = req.body
         
+        const image = req.files
+
         const available = true
 
         //Valitations
@@ -31,6 +33,10 @@ module.exports = class PetsController{
 
         if(!color){
             res.status(422).json({mesage:'Precisa inserir a cor!'})
+            return
+        }
+        if(image.length === 0){
+            res.status(422).json({mesage:'Precisa inserir uma imagem!'})
             return
         }
 
