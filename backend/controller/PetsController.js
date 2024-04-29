@@ -4,6 +4,7 @@ const Pet = require('../model/Pets')
 
 const getToken = require('../helpers/get-token')
 const getUserByToken = require('../helpers/get-user-by-token')
+const User = require('../model/Users')
 
 module.exports = class PetsController{
     static async create(req,res){
@@ -71,4 +72,29 @@ module.exports = class PetsController{
             res.status(500).json({message: err})
         }
     }
+
+    //todos os pets em ordem do mais novo para o mais velho
+
+    static async getAll(req, res){
+        const pets = await Pet.find().sort('-createdAt')
+        res.status(200).json({
+            pets:pets,
+        })
+    }
+
+    //todos os pets do usuario
+
+    static async getAllUserPets(req,res){
+        
+        //Get pet owner
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        const userPets = await Pet.find({'user._id': user._id}).sort('-createdAt')
+        
+        res.status(200).json({
+            userPets,
+        })
+    }
+
 }

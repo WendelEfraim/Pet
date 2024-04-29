@@ -10,6 +10,15 @@ router.post(
     '/create',
     veryToken,
     imageUpload.array("image"),
-    PetsController.create)
+    PetsController.create
+)
+
+router.get('/',PetsController.getAll)
+
+router.get(
+    '/getAllUserPets',
+    veryToken,
+    PetsController.getAllUserPets
+)
 
 module.exports = router
