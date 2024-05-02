@@ -150,7 +150,6 @@
                 const decoded = jwt.verify(token, 'nossoSecret')
 
                 userCorrent = await User.findById(decoded.id)
-                console.log(userCorrent)
                 userCorrent.password = undefined
 
             }else{
