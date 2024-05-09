@@ -6,6 +6,7 @@ const PetsController = require('../controller/PetsController')
 const veryToken = require('../helpers/verify-token')
 const { imageUpload } = require("../helpers/image-upload")
 
+
 router.post(
     '/create',
     veryToken,
@@ -20,5 +21,13 @@ router.get(
     veryToken,
     PetsController.getAllUserPets
 )
+
+router.get(
+    '/myadoptions',
+    veryToken,
+    PetsController.getAllUserAdoptions
+)
+
+router.get('/:id',PetsController.getPetById)
 
 module.exports = router

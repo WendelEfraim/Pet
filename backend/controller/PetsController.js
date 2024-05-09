@@ -4,7 +4,7 @@ const Pet = require('../model/Pets')
 
 const getToken = require('../helpers/get-token')
 const getUserByToken = require('../helpers/get-user-by-token')
-const User = require('../model/Users')
+const objectId = require('mongoose').Types.ObjectId
 
 module.exports = class PetsController{
     static async create(req,res){
@@ -60,7 +60,6 @@ module.exports = class PetsController{
                 phone: user.phone,
             },
         })
-        console.log(pet)
         
 
             const newPet = await pet.save()
@@ -95,6 +94,27 @@ module.exports = class PetsController{
         res.status(200).json({
             userPets,
         })
+    }
+
+    static async getAllUserAdoptions(req,res){
+        
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        const Pets = await Pet.find({'adopter._id': user._id}).sort('-createdAt')
+        console.log(Pets)
+        res.status(200).json({
+            Pets,
+        })
+    }
+
+    static async getPetById(req,res){
+        const id = req.params.id
+
+        if(!objectId.isValid(id)){
+            res.status(422).json({mesage:'Id errado ou inexistente'})
+            return
+        }
     }
 
 }
