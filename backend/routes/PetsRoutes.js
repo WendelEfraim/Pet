@@ -30,4 +30,6 @@ router.get(
 
 router.get('/:id',PetsController.getPetById)
 
+router.delete('/:id', veryToken,PetsController.removePetById)
+
 module.exports = router

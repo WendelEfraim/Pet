@@ -96,17 +96,20 @@ module.exports = class PetsController{
         })
     }
 
+    //todos os pets adotados
+
     static async getAllUserAdoptions(req,res){
         
         const token = getToken(req)
         const user = await getUserByToken(token)
 
         const Pets = await Pet.find({'adopter._id': user._id}).sort('-createdAt')
-        console.log(Pets)
         res.status(200).json({
             Pets,
         })
     }
+
+    //pegar pet pelo id
 
     static async getPetById(req,res){
         const id = req.params.id
@@ -131,6 +134,49 @@ module.exports = class PetsController{
             pet: pet,
         })
 
+    }
+
+    //remover pet pelo id
+    
+    static async removePetById(req,res){
+        
+        const id = req.params.id
+
+        // checar se o id existe
+        if(!objectId.isValid(id)){
+            res.status(422)
+            .json({
+                mesage:'Id inexistente'
+            })
+            return
+        }
+
+        // checar se pet existe
+        const pet = await Pet.findOne({_id: id})
+        if(!pet){
+            res.status(404)
+            .json({
+                mesage:'pet não encontrado!'
+            })
+            return
+        }
+
+        //checar se o usuario esta logado
+
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+        
+        if(!pet.user._id.toString() !== user._id.toString()){
+            res.status(422).json({
+                message:'Houve um problema em processar sua solicitação, tente novamente!'
+            })
+            return
+        }
+
+        await Pet.findByIdAndDelete(id)
+        res.status(200).json({
+            message:'Pet removido com sucesso!'
+        })
     }
  
 }
