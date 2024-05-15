@@ -166,7 +166,7 @@ module.exports = class PetsController{
         const token = getToken(req)
         const user = await getUserByToken(token)
         
-        if(!pet.user._id.toString() !== user._id.toString()){
+        if(pet.user._id.toString() !== user._id.toString()){
             res.status(422).json({
                 message:'Houve um problema em processar sua solicitação, tente novamente!'
             })
@@ -177,6 +177,12 @@ module.exports = class PetsController{
         res.status(200).json({
             message:'Pet removido com sucesso!'
         })
+    }
+
+    static async pachPetById(req,res){
+        const id = req.params.id
+
+
     }
  
 }
