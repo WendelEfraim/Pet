@@ -179,9 +179,92 @@ module.exports = class PetsController{
         })
     }
 
-    static async pachPetById(req,res){
+    static async updatePet(req,res){
+        
         const id = req.params.id
 
+            // checar se pet existe
+            const pet = await Pet.findOne({_id: id})
+            if(!pet){
+                res.status(404)
+                .json({
+                    mesage:'pet não encontrado!'
+                })
+                return
+            }
+
+        //checar se o usuario esta logado
+
+        if(!objectId.isValid(id)){
+            res.status(422)
+            .json({
+                mesage:'Id inexistente'
+            })
+            return
+        }
+
+        //checar se o usuario esta logado
+
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+        
+        if(pet.user._id.toString() !== user._id.toString()){
+            res.status(422).json({
+                message:'Houve um problema em processar sua solicitação, tente novamente!'
+            })
+            return
+        }
+
+        const {name, age, weight, color, available} = req.body
+        
+        const image = req.files
+
+        const updatePet = {}
+
+
+        if(!name){
+            res.status(422).json({mesage:'Precisa inserir um nome!'})
+            return
+        }else{
+            updatePet.name = name
+        }
+
+        if(!age){
+            res.status(422).json({mesage:'Precisa inserir uma idade!'})
+            return
+        }else{
+            updatePet.age = age
+        }
+
+        if(!weight){
+            res.status(422).json({mesage:'Precisa inserir o peso!'})
+            return
+        }else{
+            updatePet.weight = weight
+        }
+
+        if(!color){
+            res.status(422).json({mesage:'Precisa inserir a cor!'})
+            return
+        }else{
+            updatePet.color = color
+        }
+
+        if(image.length === 0){
+            res.status(422).json({mesage:'Precisa inserir uma imagem!'})
+            return
+        }else{
+             updatePet.image = []
+            image.map((image)=>{
+                updatePet.image.push(image.filename)
+            })
+        }
+
+        await Pet.findByIdAndUpdate(id,updatePet)
+
+        res.status(200).json({
+            mesage:'Pet atualizado com sucesso!'
+        })
 
     }
  

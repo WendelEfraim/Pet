@@ -32,4 +32,11 @@ router.get('/:id',PetsController.getPetById)
 
 router.delete('/:id', veryToken,PetsController.removePetById)
 
+router.patch(
+    '/:id',
+    veryToken,
+    imageUpload.array("image"),
+    PetsController.updatePet
+)
+
 module.exports = router
