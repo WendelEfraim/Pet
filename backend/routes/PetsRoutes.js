@@ -39,4 +39,11 @@ router.patch(
     PetsController.updatePet
 )
 
+router.patch(
+    '/schedule/:id',
+    veryToken,
+    imageUpload.array("image"),
+    PetsController.schedulePet
+)
+
 module.exports = router

@@ -148,14 +148,11 @@
 
                 const token = getToken(req)
                 const decoded = jwt.verify(token, 'nossoSecret')
-
                 userCorrent = await User.findById(decoded.id)
                 userCorrent.password = undefined
-
             }else{
                 userCorrent = null
             }
-
             res.status(200).send(userCorrent)
 
         }
@@ -174,8 +171,8 @@
                 return
             }
 
-            res.status(200)
-            .json({user})
+            res.status(200).json({user})
+            
         }
 
         static async editUser(req,res){
@@ -270,7 +267,7 @@
                 })
                 return
            }
-           console.log(user)
+
         }
     }
     console.log('3° - estamos em controller')

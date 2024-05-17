@@ -105,7 +105,7 @@ module.exports = class PetsController{
 
         const Pets = await Pet.find({'adopter._id': user._id}).sort('-createdAt')
         res.status(200).json({
-            Pets,
+            Pets
         })
     }
 
@@ -183,15 +183,15 @@ module.exports = class PetsController{
         
         const id = req.params.id
 
-            // checar se pet existe
-            const pet = await Pet.findOne({_id: id})
-            if(!pet){
-                res.status(404)
-                .json({
-                    mesage:'pet não encontrado!'
-                })
-                return
-            }
+        // checar se pet existe
+        const pet = await Pet.findOne({_id: id})
+        if(!pet){
+            res.status(404)
+            .json({
+                mesage:'pet não encontrado!'
+            })
+            return
+        }
 
         //checar se o usuario esta logado
 
@@ -264,6 +264,75 @@ module.exports = class PetsController{
 
         res.status(200).json({
             mesage:'Pet atualizado com sucesso!'
+        })
+
+    }
+
+    static async schedulePet(req,res){
+
+        const id = req.params.id
+        
+        // checar se o id existe
+        
+        if(!objectId.isValid(id)){
+            res.status(422)
+            .json({
+                mesage:'Id inexistente'
+            })
+            return
+        }
+
+        // checar se pet existe
+        const pet = await Pet.findOne({_id: id})
+        if(!pet){
+            res.status(404)
+            .json({
+                mesage:'pet não encontrado!'
+            })
+            return
+        }
+
+        //checar se o usuario esta logado
+
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        //checar se o Pet é do proprio usuario
+        if(pet.user._id.toString() === user._id.toString()){
+            res.status(422).json({
+                message:'Você não pode agendar uma visita para seu próprio Pet!'
+            })
+         
+            return
+        }
+      
+        //checar se o Pet ja tem um adotante
+        const carinha = ':)'
+        if(pet.adopter){
+            if(pet.adopter._id.toString() === user._id.toString()){
+                res.status(422).json({
+                    message:`Você ja agendou uma visita para este Pet! ${carinha}`
+                })
+                
+                return
+            }
+        }
+
+        //adotar pet
+        
+        pet.adopter = {
+            _id: user._id,
+            name: user.name,
+            image: user.image
+        }
+
+        console.log("id do pet: "+pet.user.id)
+        console.log(user.id)
+
+        await Pet.findByIdAndUpdate(id,pet)
+
+        res.status(200).json({
+            mesage: `A visita foi agendada com sucesso! Por favor entre em contato com ${pet.user.name} pelo numero: ${pet.user.phone}  ${carinha}`
         })
 
     }
