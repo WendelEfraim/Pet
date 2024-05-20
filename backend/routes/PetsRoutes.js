@@ -46,4 +46,5 @@ router.patch(
     PetsController.schedulePet
 )
 
+router.patch('/conclued/:id',veryToken,PetsController.concluedAdoption)
 module.exports = router

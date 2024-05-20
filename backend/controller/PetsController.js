@@ -102,8 +102,9 @@ module.exports = class PetsController{
         
         const token = getToken(req)
         const user = await getUserByToken(token)
-
-        const Pets = await Pet.find({'adopter._id': user._id}).sort('-createdAt')
+        
+        const Pets = await Pet.find({ 'adopter._id': user._id }).sort('-createdAt');
+        console.log('user encontrados:', user._id);
         res.status(200).json({
             Pets
         })
@@ -335,6 +336,54 @@ module.exports = class PetsController{
             mesage: `A visita foi agendada com sucesso! Por favor entre em contato com ${pet.user.name} pelo numero: ${pet.user.phone}  ${carinha}`
         })
 
+    }
+
+    static async concluedAdoption(req,res){
+
+        const id = req.params.id
+        
+        // checar se o id existe
+        
+        if(!objectId.isValid(id)){
+            res.status(422)
+            .json({
+                mesage:'Id inexistente'
+            })
+            return
+        }
+
+         // checar se pet existe
+        const pet = await Pet.findOne({_id: id})
+        if(!pet){
+            res.status(404)
+            .json({
+                mesage:'pet não encontrado!'
+            })
+            return
+        }
+
+        //checar se o usuario esta logado
+
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        //verifica se o pet é do usuario
+        
+        if(pet.user._id.toString() !== user._id.toString()){
+            res.status(422).json({
+                message:'Houve um problema em processar sua solicitação, tente novamente!'
+            })
+            return
+        }
+        
+        pet.available = false
+
+        Pet.findByIdAndUpdate(id, pet)
+
+        res.status(200).json({
+            mesage:`Parabens! Adoção do Pet '${pet.name}' foi realizada com sucesso!`
+        })
+        
     }
  
 }
