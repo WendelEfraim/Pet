@@ -1,3 +1,11 @@
 .Navbar{
     top: 0;
+    background-color: aquamarine;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+}
+.link{
+    text-decoration: none;
 }
