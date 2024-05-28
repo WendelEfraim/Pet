@@ -1,11 +1,25 @@
 .Navbar{
-    top: 0;
     background-color: aquamarine;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    gap: 4px;
+    gap: 10px;
 }
 .link{
+    text-decoration: none;
+    margin: .8em;
+    font-weight: bold;
+}
+.logo_Navbar{
+    margin-left: .8em;
+   display: flex;
+   align-items: center;
+}
+.logo_Navbar img{
+    width: 40px;
+    margin-right: .8em;
+}
+.linkNavbar{
+    gap: 10px;
     text-decoration: none;
 }
