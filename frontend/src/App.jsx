@@ -3,16 +3,22 @@ import './App.css'
 //reaproveitamento de estrutura
 import { Outlet } from 'react-router-dom'
 
-//Links Navbar
+//Navbar
 import Navbar from './components/Navbar'
+
+//Container
+import Container from './components/Container'
+
 
 function App() {
 
   return (
     <div>
       <Navbar/>
-      <h1>My Pet!</h1>
-      <Outlet/>
+      <Container>
+        <Outlet/>
+      </Container>
+      
       <footer><p>footer</p></footer>
     </div>
   )

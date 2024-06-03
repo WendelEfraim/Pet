@@ -15,6 +15,7 @@ import ErrorPage from './routes/errorPage.jsx'
 
 import ContactTutor from './routes/ContactSuport.jsx'
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
         element:<ContactTutor/>
       }
 
-    ]
+    ],
   }
 ])
 
