@@ -1,5 +1,5 @@
 .Navbar{
-    background-color: aquamarine;
+    background-color: #FF9671;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,6 +18,10 @@
 .logo_Navbar img{
     width: 40px;
     margin-right: .8em;
+}
+.logo_Navbar h2{
+    color: #845EC2;
+    text-decoration: underline;
 }
 .linkNavbar{
     gap: 10px;

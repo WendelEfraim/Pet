@@ -3,5 +3,6 @@
     padding: 1em 2em 3em;
     max-width: 1200px;
     margin: 0 auto;
-    background-color: rgb(252, 0, 0);
+    margin-top: 2em;
+    background-image: linear-gradient(to right bottom, #099bc4, #0097d0, #0092db, #008ce5, #1284eb);
 }
