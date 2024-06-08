@@ -1,8 +1,12 @@
 import Input from "../components/form/Input"
 
+import {Link} from 'react-router-dom'
+
+import style from "../components/form/form.module.css"
+
 const Register = () =>{
     return(
-        <div>
+        <div className={style.form_container}>
             <h1>Registrar</h1>
             <form>
                 <Input
@@ -13,7 +17,7 @@ const Register = () =>{
                     handleOnChange={HashChangeEvent}
                 />
                 <Input
-                    text="Email:"
+                    text="Email"
                     type="email"
                     name="email"
                     placeholder="Digite seu email"
@@ -42,6 +46,9 @@ const Register = () =>{
                 />
                 <input type="submit" value="registrar" />
             </form>
+            <p>
+                Já tem conta? <Link to="/login">Click aqui</Link>
+            </p>
         </div>
     )
 }

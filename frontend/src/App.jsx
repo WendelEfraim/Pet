@@ -9,6 +9,8 @@ import Navbar from './components/Navbar'
 //Container
 import Container from './components/Container'
 
+import Footer from './components/Footer'
+
 
 function App() {
 
@@ -18,6 +20,7 @@ function App() {
       <Container>
         <Outlet/>
       </Container>
+      <Footer/>
       
       <footer><p>footer</p></footer>
     </div>
