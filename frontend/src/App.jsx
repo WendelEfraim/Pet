@@ -11,16 +11,21 @@ import Container from './components/Container'
 
 import Footer from './components/Footer'
 
+//Context
+import { UserProvider } from './context/UserContext'
+
 
 function App() {
 
   return (
     <div>
-      <Navbar/>
-      <Container>
-        <Outlet/>
-      </Container>
-      <Footer/>
+      <UserProvider>
+        <Navbar/>
+          <Container>
+            <Outlet/>
+          </Container>
+        <Footer/>
+      </UserProvider>
       
       <footer><p>footer</p></footer>
     </div>
