@@ -12,18 +12,21 @@
             // res.json('Ola Mundo!')
             const { name, email, password, confirmpassword, phone} = req.body
 
-            if(!name || !email || !password || !confirmpassword || !phone){
+            
+            if(!name){
                 res.status(422)
                 .json({
-                    message: `falta preencher:${!name ? ' Nome' : ''}${!phone ? ' Telefone' : ''}`
+                    message:"Por favor insira um email"
                 })
                 return
             }
+            
             if(!email){
                 res.status(422)
                 .json({
                     message:"Por favor insira um email"
                 })
+                return
             }
 
             if(!password){
@@ -31,6 +34,7 @@
                 .json({
                     message:"Por favor insira uma senha"
                 })
+                return
             }
 
             if(!confirmpassword){
@@ -38,6 +42,7 @@
                 .json({
                     message:"Por favor confirme a senha"
                 })
+                return
             }
 
             if(!phone){
@@ -45,6 +50,7 @@
                 .json({
                     message:"Por favor insira um numero para contato"
                 })
+                return
             }
             
             //confirmação de senha
