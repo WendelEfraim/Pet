@@ -3,13 +3,11 @@ import './App.css'
 //reaproveitamento de estrutura
 import { Outlet } from 'react-router-dom'
 
-//Navbar
+//components
 import Navbar from './components/Navbar'
-
-//Container
 import Container from './components/Container'
-
 import Footer from './components/Footer'
+import Message from './components/Message'
 
 //Context
 import { UserProvider } from './context/UserContext'
@@ -20,7 +18,8 @@ function App() {
   return (
     <div>
       <UserProvider>
-        <Navbar/>
+        <Navbar />
+        <Message/>
           <Container>
             <Outlet/>
           </Container>

@@ -38,17 +38,17 @@ function Register() {
                     handleOnChange={handleChange}
                 />
                 <Input
-                    text="Email"
-                    type="email"
-                    name="email"
-                    placeholder="Digite seu email"
-                    handleOnChange={handleChange}
-                />
-                <Input
                     text="Telefone"
                     type="text"
                     name="phone"
                     placeholder="Digite seu telefone"
+                    handleOnChange={handleChange}
+                />
+                <Input
+                    text="Email"
+                    type="email"
+                    name="email"
+                    placeholder="Digite seu email"
                     handleOnChange={handleChange}
                 />
                 <Input

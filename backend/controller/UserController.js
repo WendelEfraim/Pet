@@ -16,7 +16,7 @@
             if(!name){
                 res.status(422)
                 .json({
-                    message:"Por favor insira um email"
+                    message:"Por favor insira um nome"
                 })
                 return
             }
