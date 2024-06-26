@@ -10,10 +10,11 @@ import {createBrowserRouter, RouterProvider}from'react-router-dom'
 import Home from './routes/home.jsx'
 import Login from './routes/login.jsx'
 import Register from './routes/register.jsx'
+import Profile from './pages/User/Profile'
 //pagina de erro
 import ErrorPage from './routes/errorPage.jsx'
 
-import ContactTutor from './routes/ContactSuport.jsx'
+
 
 
 const router = createBrowserRouter([
@@ -36,13 +37,10 @@ const router = createBrowserRouter([
         path: "login",
         element:<Login />
       },
-
-      //rotas aninhadas - identificador unico
       {
-        path: "/contact/:id",
-        element:<ContactTutor/>
-      }
-
+        path: "user/profile",
+        element:<Profile />
+      },
     ],
   }
 ])
