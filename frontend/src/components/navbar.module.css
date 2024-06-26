@@ -9,6 +9,8 @@
     text-decoration: none;
     margin: .8em;
     font-weight: bold;
+    cursor: pointer;
+    color: rgb(85, 26, 139);
 }
 .logo_Navbar{
     margin-left: .8em;
@@ -24,6 +26,10 @@
     text-decoration: underline;
 }
 .linkNavbar{
+    margin-left: .8em;
+    display: flex;
+    align-items: center;
     gap: 10px;
     text-decoration: none;
+    list-style-type: none;
 }

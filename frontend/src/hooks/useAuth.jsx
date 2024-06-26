@@ -49,8 +49,8 @@ export default function useAuth() {
     }
 
     async function logout() {
-        const msgText = 'Logout realizado com sucesso'
-        const msgType = 'sucess'
+        let msgText = 'Logout realizado com sucesso'
+        let msgType = 'sucess'
         
         setAuthenticated(false)
         localStorage.removeItem('token')
@@ -60,7 +60,23 @@ export default function useAuth() {
         setFlashMessage(msgText,msgType)
     }
 
+    async function login(user) {
+        let msgText = 'Login realizado com sucesso'
+        let msgType = 'sucess'
+        try{
+            const data = await api.post('/users/login', user).then((response)=>{
+                return response.data
+            })
 
-    return {authenticated, register, logout}
+            await autheUser(data)
+
+        } catch (error) {
+            msgText = error.response.data.message
+            msgType = 'error'
+        }
+        setFlashMessage(msgText,msgType)
+    }
+
+    return {authenticated, register, logout, login}
     
 }
