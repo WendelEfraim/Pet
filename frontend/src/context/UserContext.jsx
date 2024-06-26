@@ -5,9 +5,9 @@ const Context = createContext()
 
 // eslint-disable-next-line react/prop-types
 function UserProvider({children}) {
-    const {authenticated, register} = useAuth()
+    const {authenticated, register, logout} = useAuth()
 
-    return<Context.Provider value={{authenticated, register}}>{children}</Context.Provider>
+    return<Context.Provider value={{authenticated, register, logout}}>{children}</Context.Provider>
     
 }
 

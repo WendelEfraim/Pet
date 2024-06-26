@@ -6,7 +6,7 @@ import { useContext } from "react"
 import  {Context}  from "../context/UserContext"
 
     const Navbar = () =>{
-    const {authenticated} = useContext(Context)
+    const {authenticated, logout} = useContext(Context)
 
     return(
         <nav className={styles.Navbar}>
@@ -19,7 +19,7 @@ import  {Context}  from "../context/UserContext"
             <Link className ={styles.link} to="/">Home</Link>
             {authenticated ? (
                 <>
-                <p>Logado</p>
+                <li className={styles.link} onClick={logout}>Sair</li>
                 </>
             ) : (
                 <>
