@@ -6,3 +6,6 @@
     margin-top: 2em;
     background-image: linear-gradient(to right bottom, #099bc4, #0097d0, #0092db, #008ce5, #1284eb);
 }
+.Container h1{
+    color: rgb(187, 115, 32)
+}

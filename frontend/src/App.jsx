@@ -26,8 +26,6 @@ function App() {
           </Container>
         <Footer/>
       </UserProvider>
-      
-      <footer><p>footer</p></footer>
     </div>
   )
 }
