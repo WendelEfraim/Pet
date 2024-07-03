@@ -1,5 +1,7 @@
 import Input from "../../components/form/Input"
 import {useState, useEffect} from 'react'
+import useFlashMessage from "../../hooks/useFlashMessage"
+
 
 //Style
 import FormStyle from "../../components/form/form.module.css"
@@ -7,24 +9,90 @@ import style from "./Profile.module.css"
 //Context
 import { Context } from '../../context/UserContext'
 
+//utils
+import bus from "../../utils/bus"
+import api from "../../utils/api"
+
+
+
 const Profile = () =>{
 
-    const [user, setUser] = useState({})
+    const [user,setUser] = useState({})
+    const [preview, setPreview] = useState()
+    const [token] = useState(localStorage.getItem('token') || '')
+    const {setFlashMessage} = useFlashMessage()
 
-    function handleSubmit(e) {}
+    useEffect(()=>{
 
-    function handleChange(e) {}
+        api.get('/users/checkuser',{
+            headers:{
+                Authorization:`Bearer ${JSON.parse(token)}`
+            }
+        }).then((response)=>{
+            setUser(response.data)
+        })
+       
 
-    function handleSubmit(e) {}
+    },[token])
 
-    function onFileChange(e) {}
+    function handleChange(e) {
+        setUser({ ...user, [e.target.name]: e.target.value })
+    }
+
+    function onFileChange(e) {
+        setPreview(e.target.files[0])
+        setUser({ ...user, [e.target.name]: e.target.files[0] })
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+
+        let msgType = 'sucess'
+        
+        const formData = new FormData()
+
+        await Object.keys(user).forEach((key)=>
+        formData.append(key, user[key])
+        )
+
+        const data = await api
+        .patch(`users/edit/${user._id}`, formData,{
+            headers:{
+                Authorization:`Bearer ${JSON.parse(token)}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((response)=>{
+
+           return response.data
+
+        }).catch((err)=>{
+
+            msgType = 'error'
+            return err.response.data
+
+        })
+        setFlashMessage(data.message, msgType)
+    }
+
     return(
         <section>
+            
+        <form onSubmit={handleSubmit} className={FormStyle.form_container}>
+
             <div className={style.profile_header}>
                 <h1>Perfil</h1>
-                <p>Visualizar imagem</p>
+                {(user.image || preview) && (
+                    <img
+                        src={
+                            preview
+                            ? URL.createObjectURL(preview)
+                            : `${process.env.REACT_APP_API}image/users/${user.image}`
+                        }
+                        alt={user.name}
+                    />
+                    )}
             </div>
-        <form onSubmit={handleSubmit} className={FormStyle.form_container}>
+
                 <Input
                     text="image"
                     type="file"
