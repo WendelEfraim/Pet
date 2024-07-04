@@ -86,9 +86,7 @@ const Profile = () =>{
                 {(user.image || preview) && (
                     <img
                     src={
-                        preview
-                        ? URL.createObjectURL(preview)
-                        : `${import.meta.env.REACT_APP_API}/image/users/${user.image}`
+                        preview ? URL.createObjectURL(preview) : `${import.meta.env.REACT_APP_API}/image/users/${user.image}`
                     }
                         alt={user.name}
                     />
