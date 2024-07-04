@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 import useFlashMessage from "../../hooks/useFlashMessage"
 
 
+
 //Style
 import FormStyle from "../../components/form/form.module.css"
 import style from "./Profile.module.css"
@@ -15,6 +16,8 @@ import api from "../../utils/api"
 
 
 
+
+
 const Profile = () =>{
 
     const [user,setUser] = useState({})
@@ -24,16 +27,16 @@ const Profile = () =>{
 
     useEffect(()=>{
 
-        api.get('/users/checkuser',{
-            headers:{
-                Authorization:`Bearer ${JSON.parse(token)}`
+        api.get('/users/checkuser', {
+            headers: {
+                Authorization: `Bearer ${JSON.parse(token)}`
             }
-        }).then((response)=>{
-            setUser(response.data)
-        })
-       
-
-    },[token])
+        }).then((response) => {
+            setUser(response.data);
+        }).catch((error) => {
+            console.error("Erro ao buscar usuário", error);
+        });
+    }, [token]);
 
     function handleChange(e) {
         setUser({ ...user, [e.target.name]: e.target.value })
@@ -73,7 +76,6 @@ const Profile = () =>{
         })
         setFlashMessage(data.message, msgType)
     }
-
     return(
         <section>
             
@@ -83,11 +85,11 @@ const Profile = () =>{
                 <h1>Perfil</h1>
                 {(user.image || preview) && (
                     <img
-                        src={
-                            preview
-                            ? URL.createObjectURL(preview)
-                            : `${process.env.REACT_APP_API}image/users/${user.image}`
-                        }
+                    src={
+                        preview
+                        ? URL.createObjectURL(preview)
+                        : `${import.meta.env.REACT_APP_API}/image/users/${user.image}`
+                    }
                         alt={user.name}
                     />
                     )}
