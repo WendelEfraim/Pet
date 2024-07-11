@@ -11,6 +11,7 @@ import Home from './routes/home.jsx'
 import Login from './routes/login.jsx'
 import Register from './routes/register.jsx'
 import Profile from './pages/User/Profile'
+import MyPets from './pages/home/Pets/MyPets.jsx'
 //pagina de erro
 import ErrorPage from './routes/errorPage.jsx'
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "user/profile",
         element:<Profile />
+      },
+      {
+        path: "pets/mypets",
+        element:<MyPets />
       },
     ],
   }

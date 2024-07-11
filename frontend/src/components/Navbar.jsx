@@ -19,6 +19,7 @@ import  {Context}  from "../context/UserContext"
             <Link className ={styles.link} to="/">Home</Link>
             {authenticated ? (
                 <>
+                <li><Link className={styles.link} to = "pets/mypets">My Pets</Link></li>
                 <li><Link className={styles.link} to = "user/profile">Perfil</Link></li>
                 <li className={styles.link} onClick={logout}>Sair</li>
                 </>

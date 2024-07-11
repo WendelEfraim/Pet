@@ -13,6 +13,7 @@ import { Context } from '../../context/UserContext'
 //utils
 import bus from "../../utils/bus"
 import api from "../../utils/api"
+import RoundedImage from "../../components/RoundedImage"
 
 
 
@@ -85,7 +86,7 @@ const Profile = () =>{
             <div className={style.profile_header}>
                 <h1>Perfil</h1>
                 {(user.image || preview) && (
-                    <img
+                    <RoundedImage
                     src={
                         preview ? URL.createObjectURL(preview) : `${import.meta.env.VITE_REACT_APP_API}/images/user/${user.image}`
                     }
