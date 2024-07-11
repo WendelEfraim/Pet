@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(182, 182, 182);
 }
 
 .App-link {
@@ -35,4 +35,17 @@
   to {
     transform: rotate(360deg);
   }
+}
+body::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #FF9671;        /* color of the tracking area */  
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(110, 56, 160);    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 1px solid rgb(6, 6, 6);  /* creates padding around scroll thumb */
 }
