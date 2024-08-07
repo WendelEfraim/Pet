@@ -12,6 +12,7 @@ import { Context } from '../context/UserContext'
 function Register() {
     const [user, setUser] = useState({})
     const {register} = useContext(Context)
+    const [showPassword, setShowPassword] = useState(false)
 
             
     function handleChange(e) {
@@ -21,6 +22,9 @@ function Register() {
     function handleSubmit(e) {
         e.preventDefault()
         register(user)
+    }
+    function handleCheckboxChange() {
+        setShowPassword(!showPassword)
     }
 
     return(
@@ -53,18 +57,23 @@ function Register() {
                 />
                 <Input
                     text="Senha"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     placeholder="Digite seu senha"
                     handleOnChange={handleChange}
                 />
                 <Input
                     text="Confirme sua senha"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="confirmpassword"
                     placeholder="Confirme sua senha"
                     handleOnChange={handleChange}
                 />
+                <input
+                    id="showPassword" 
+                    type="checkbox"
+                    onChange={handleCheckboxChange}
+                /> Exibir Senhas
                 <input type="submit" value="Registrar" />
             </form>
             <p>

@@ -12,6 +12,7 @@ import Login from './routes/login.jsx'
 import Register from './routes/register.jsx'
 import Profile from './pages/User/Profile'
 import MyPets from './pages/home/Pets/MyPets.jsx'
+import AddPet from './pages/home/Pets/AddPet.jsx'
 //pagina de erro
 import ErrorPage from './routes/errorPage.jsx'
 
@@ -43,9 +44,13 @@ const router = createBrowserRouter([
         element:<Profile />
       },
       {
+        path: "pet/add",
+        element:<AddPet />
+      },
+      {
         path: "pets/mypets",
         element:<MyPets />
-      },
+      }
     ],
   }
 ])
